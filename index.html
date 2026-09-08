@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MEMPHIS DATA ARCHIVE</title>
+<style>
+:root{--bg:#070b12;--panel:#0b1017;--panel2:#0e1621;--line:rgba(255,255,255,.08);--text:#f4f7fb;--muted:#91a0b3;--accent:#ff5757;--accentSoft:rgba(255,87,87,.12);--accentLine:rgba(255,87,87,.28)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}html,body{min-height:100%}body{margin:0;font-family:Inter,Pretendard,"Noto Sans KR",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--bg);overflow-x:hidden}button,a,input{font:inherit}a{color:inherit}
+.site{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(255,87,87,.12),transparent 28%),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),var(--panel);background-size:auto,42px 42px,42px 42px,auto}
+.topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:72px;padding:0 clamp(18px,4vw,54px);border-bottom:1px solid var(--line);background:rgba(7,11,18,.88);backdrop-filter:blur(16px)}
+.brand{display:flex;align-items:center;gap:12px}.brand-mark{width:32px;height:32px;display:grid;place-items:center;border:1px solid var(--accentLine);background:var(--accentSoft);color:var(--accent);transform:rotate(45deg)}.brand-mark span{transform:rotate(-45deg)}.brand-title{margin:0;font-size:14px;font-weight:900;letter-spacing:.12em}.brand-sub{margin:3px 0 0;color:var(--muted);font-size:9px;letter-spacing:.16em}
+.nav{display:flex;gap:8px;flex-wrap:wrap}.tab{min-height:38px;padding:0 14px;border:1px solid transparent;border-radius:999px;background:transparent;color:#9eacbd;font-size:11px;font-weight:800;cursor:pointer}.tab:hover{color:#fff;border-color:var(--line);background:rgba(255,255,255,.03)}.tab.active{color:var(--accent);border-color:var(--accentLine);background:var(--accentSoft)}
+.main{width:min(1500px,100%);margin:0 auto;padding:clamp(34px,5vw,72px) clamp(20px,5vw,72px) clamp(72px,8vw,120px)}
+.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:clamp(24px,4vw,54px);align-items:end;padding-bottom:clamp(30px,4vw,50px);border-bottom:1px solid var(--line)}.eyebrow{color:var(--accent);font-size:10px;font-weight:900;letter-spacing:.22em;text-transform:uppercase}.hero h1{margin:10px 0 14px;font-size:clamp(48px,8vw,112px);line-height:.88;letter-spacing:-.07em;white-space:pre-line}.hero-desc{max-width:760px;margin:0;color:#aeb8c6;font-size:clamp(14px,1.3vw,17px);line-height:1.8}.hero-panel{padding:18px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.015))}.hero-row{display:flex;justify-content:space-between;gap:20px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)}.hero-row:last-child{border-bottom:0}.hero-label{color:#6f7d8d;font-size:9px;letter-spacing:.13em;font-weight:900}.hero-value{font-size:11px;font-weight:800;text-align:right}
+.content{padding-top:clamp(34px,5vw,64px)}.view{display:none;animation:fade .25s ease}.view.active{display:block}@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:26px}.section-head h2{margin:6px 0 0;font-size:clamp(28px,4vw,46px);letter-spacing:-.04em}.section-head p{max-width:600px;margin:0;color:var(--muted);font-size:12px;line-height:1.65;text-align:right}
+.world-layout{display:grid;grid-template-columns:minmax(220px,.58fr) minmax(0,1.42fr);gap:clamp(24px,4vw,54px);align-items:start}.world-index{position:sticky;top:98px;display:grid;gap:10px}.index-card{padding:15px 16px;border:1px solid var(--line);background:rgba(255,255,255,.018);text-decoration:none}.index-no{color:var(--accent);font-size:9px;font-weight:900;letter-spacing:.14em}.index-title{margin-top:4px;color:#dfe7f0;font-size:13px;font-weight:800}.lore{padding:0 0 34px;margin-bottom:34px;border-bottom:1px solid var(--line)}.lore:last-child{border-bottom:0}.lore-label{color:var(--accent);font-size:9px;font-weight:900;letter-spacing:.18em}.lore h3{margin:7px 0 15px;font-size:clamp(22px,3vw,34px);letter-spacing:-.03em}.lore-text{color:#bdc6d2;font-size:15px;line-height:2;word-break:keep-all}.lore-text p{margin:0 0 1.25em}
+.timeline-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);gap:clamp(22px,4vw,44px)}.gateway{min-height:330px;padding:clamp(26px,4vw,46px);border:1px solid var(--accentLine);background:linear-gradient(135deg,rgba(255,87,87,.1),transparent 46%),linear-gradient(180deg,#0d1622,#0a1018)}.gateway h3{margin:8px 0 14px;font-size:clamp(32px,5vw,62px);line-height:.95;letter-spacing:-.05em}.gateway p{max-width:700px;color:#aeb9c7;line-height:1.8;font-size:14px}.timeline-link{display:inline-flex;align-items:center;justify-content:center;min-height:46px;margin-top:24px;padding:0 20px;border:1px solid var(--accentLine);background:var(--accentSoft);color:var(--accent);text-decoration:none;font-size:12px;font-weight:900}.note-list{display:grid;gap:12px}.note{padding:20px;border:1px solid var(--line);background:rgba(255,255,255,.02)}.note strong{display:block;margin-bottom:7px;font-size:13px}.note span{color:var(--muted);font-size:11px;line-height:1.6}
+.tools{margin-bottom:20px}.search{width:min(420px,100%);min-height:42px;padding:0 14px;border:1px solid var(--line);background:rgba(255,255,255,.025);color:var(--text);outline:none}.search:focus{border-color:var(--accentLine)}.character-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.character-card{position:relative;min-height:132px;padding:18px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(255,87,87,.045),transparent 55%),rgba(255,255,255,.018);text-decoration:none;transition:.18s}.character-card:before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent);opacity:.65}.character-card:hover{transform:translateY(-2px);border-color:var(--accentLine)}.char-no{color:var(--accent);font-size:9px;font-weight:900;letter-spacing:.12em}.char-name{margin:10px 0 7px;font-size:22px;font-weight:900}.char-role{color:var(--muted);font-size:10px;letter-spacing:.09em}.char-arrow{position:absolute;right:16px;bottom:14px;color:rgba(255,87,87,.55);font-size:18px}.empty{grid-column:1/-1;padding:30px;border:1px dashed var(--line);color:var(--muted);text-align:center}
+
+/* ─────────────────────────────
+   이모저모 / SNS FEED
+   ───────────────────────────── */
+.feed-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.34fr);gap:clamp(22px,4vw,44px);align-items:start}
+.feed-list{display:grid;gap:16px}
+.feed-post{position:relative;padding:22px 22px 18px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(255,87,87,.045),transparent 55%),rgba(255,255,255,.018);overflow:hidden}
+.feed-post:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);opacity:.58}
+.feed-title{margin:0 0 10px;font-size:20px;line-height:1.35;letter-spacing:-.02em}
+.feed-text{margin:0;color:#b7c1ce;font-size:13px;line-height:1.9;white-space:pre-line;word-break:keep-all;overflow-wrap:break-word}
+.feed-image-wrap{margin-top:15px;border:1px solid var(--line);background:#080d14;overflow:hidden}
+.feed-image-wrap[hidden]{display:none}
+.feed-image{display:block;width:100%;max-height:460px;object-fit:contain;background:#080d14}
+.feed-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}
+.feed-tag{display:inline-flex;align-items:center;min-height:25px;padding:0 9px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.025);color:#8292a5;font-size:9px;letter-spacing:.05em}
+
+.comment-zone{margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.07)}
+.comment-label{margin-bottom:10px;color:#6f7d8d;font-size:9px;font-weight:900;letter-spacing:.12em}
+.comment-list{display:grid;gap:8px}
+.comment{padding:11px 12px;border:1px solid rgba(255,255,255,.055);background:rgba(0,0,0,.16)}
+.comment-text{margin:0;color:#9fabb9;font-size:11px;line-height:1.68;white-space:pre-line;word-break:keep-all;overflow-wrap:break-word}
+.no-comments{color:#596777;font-size:10px}
+
+.feed-side{position:sticky;top:98px;display:grid;gap:12px}
+.feed-side-card{padding:18px;border:1px solid var(--line);background:rgba(255,255,255,.018)}
+.feed-side-card strong{display:block;margin-bottom:7px;font-size:12px}
+.feed-side-card span{display:block;color:var(--muted);font-size:10px;line-height:1.65}
+.feed-owner-note{border-color:rgba(255,87,87,.2);background:rgba(255,87,87,.035)}
+
+.footer{min-height:58px;padding:0 clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:center;gap:18px;border-top:1px solid var(--line);color:#526276;font-size:8px;letter-spacing:.15em}
+@media(max-width:980px){.topbar{align-items:flex-start;flex-direction:column;padding-top:16px;padding-bottom:14px}.nav{width:100%}.hero,.world-layout,.timeline-layout,.feed-layout{grid-template-columns:1fr}.feed-side{position:static;grid-template-columns:repeat(2,minmax(0,1fr))}.world-index{position:static;grid-template-columns:repeat(2,minmax(0,1fr))}.character-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.section-head{align-items:flex-start;flex-direction:column}.section-head p{text-align:left}}
+@media(max-width:620px){.main{padding-left:16px;padding-right:16px}.hero h1{font-size:58px}.world-index,.character-grid,.feed-side{grid-template-columns:1fr}.tab{flex:1 1 auto;padding:0 10px}.footer{align-items:flex-start;flex-direction:column;justify-content:center;padding-top:14px;padding-bottom:14px}}
+</style>
+</head>
+<body>
+<div class="site">
+<header class="topbar">
+  <div class="brand"><div class="brand-mark"><span>◆</span></div><div><p class="brand-title" id="siteTitle"></p><p class="brand-sub" id="siteSubtitle"></p></div></div>
+  <nav class="nav" aria-label="메인 카테고리">
+    <button class="tab active" data-view="world" type="button">멤피스에 대해</button>
+    <button class="tab" data-view="timeline" type="button">역사 타임라인</button>
+    <button class="tab" data-view="characters" type="button">캐릭터 목록</button>
+    <button class="tab" data-view="feed" type="button">익명게시판</button>
+  </nav>
+</header>
+<main class="main">
+  <section class="hero">
+    <div><div class="eyebrow" id="heroEyebrow"></div><h1 id="heroTitle"></h1><p class="hero-desc" id="heroDescription"></p></div>
+    <aside class="hero-panel">
+      <div class="hero-row"><span class="hero-label">CATEGORY</span><span class="hero-value" id="heroCategory">INSTITUTE info</span></div>
+      <div class="hero-row"><span class="hero-label">STATUS</span><span class="hero-value">ONLINE</span></div>
+      <div class="hero-row"><span class="hero-label">ACCESS</span><span class="hero-value">PRIVATE ARCHIVE</span></div>
+    </aside>
+  </section>
+  <section class="content">
+    <div class="view active" id="view-world">
+      <div class="section-head"><div><div class="eyebrow">INSTITUTE info</div><h2>MEMPHIS</h2></div><p></p></div>
+      <div class="world-layout"><aside class="world-index" id="worldIndex"></aside><article id="worldArticle"></article></div>
+    </div>
+    <div class="view" id="view-timeline">
+      <div class="section-head"><div><div class="eyebrow">HISTORICAL RECORD</div><h2>역사 타임라인</h2></div><p></p></div>
+      <div class="timeline-layout"><section class="gateway"><div class="eyebrow">EXTERNAL ARCHIVE</div><h3 id="timelineTitle"></h3><p id="timelineDescription"></p><a class="timeline-link" id="timelineLink">타임라인 열기 →</a></section><aside class="note-list" id="timelineNotes"></aside></div>
+    </div>
+    <div class="view" id="view-characters">
+      <div class="section-head"><div><div class="eyebrow">CHARACTER INDEX</div><h2>캐릭터 목록</h2></div><p></p></div>
+      <div class="tools"><input class="search" id="characterSearch" type="search" placeholder="캐릭터 이름 검색" /></div>
+      <div class="character-grid" id="characterGrid"></div>
+    </div>
+
+    <div class="view" id="view-feed">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Anonymous Bulletin Board</div>
+          <h2>익명게시판</h2>
+        </div>
+        <p></p>
+      </div>
+
+      <div class="feed-layout">
+        <section class="feed-list" id="feedList"></section>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="footer"><span id="footerLeft"></span><span id="footerRight"></span></footer>
+</div>
+<script>
+/* =====================================================================
+   ★ 수정은 SITE_DATA 영역만 하면 됩니다. ★
+   - worldSections: 세계관 본문
+   - timeline.link: 역사 타임라인 링크
+   - characters: 캐릭터 이름/역할/링크
+   - feedPosts: 이모저모 게시글 + 댓글
+   ===================================================================== */
+const SITE_DATA={
+  siteTitle:"MEMPHIS DATA ARCHIVE",
+  siteSubtitle:"LORE / TIMELINE / CHARACTER INDEX / ETC",
+  heroEyebrow:"ARCHIVE ACCESS // GRANTED",
+  heroTitle:"WORLD\nDATABASE",
+  heroDescription:"세계의 역사, 정보, 비밀, 모든 것이 이 곳에 잠들어 있다.",
+
+  worldSections:[
+    {label:"OVERVIEW",title:"멤피스 중앙노이드과학연구소",content:`
+MEMPHIS CENTRAL NOID SCIENCE INSTITUTE
+
+Machine Evolution, Memory, Physiology & Intelligence Sciences
+
+멤피스 중앙노이드과학연구소는 노이드의 동체, 지성, 기억, 자율성 및 차세대 기술 전반을 연구하는 엔네아드 7차석, Ss-87th [SETH]의 페세제트 직속 최고 권위의 종합 연구기관이다.
+
+초대 연구소장인 엔네아드 6차석, SET-00H [SETH]의 설립 이래 멤피스는 노이드 사회의 기반을 이루는 핵심 기술과 학문 체계를 정립해 왔으며, 신형 프레임과 인공신경계, 기억 보존 및 복원 기술, 자기진단 체계, 지성 구조 연구를 비롯한 수많은 분야에서 새로운 기준을 제시해 왔다.
+노이드 문명의 산실이지.
+
+우리의 연구는 단순한 성능 향상을 목적으로 하지 않는다.
+노이드가 스스로 사고하고, 기억하며, 변화하고, 자신의 존재를 지속할 수 있도록 하는 것. 그것이 멤피스가 추구하는 연구의 본질이다.
+
+오늘날 노이드 사회에서 통용되는 수많은 기술 표준과 의학적·공학적 기준은 멤피스의 연구에서 시작되었다. 우리는 축적된 지식에 머무르지 않고, 아직 정의되지 않은 가능성을 연구하며 다음 세대의 노이드 사회를 준비한다.
+
+완벽이라는 도달하지 못할 결론을 향해 한없이 가깝도록 나아가는 것, 그것이 멤피스가 추구하는 노이드의 길이다.`}
+  ],
+
+  timeline:{
+    title:"HISTORY TIMELINE",
+    link:"타임라인.html"
+  },
+
+  characters:[
+    {name:"AN-UB1S",role:"ENNEAD",link:"J/J.html"}
+  ],
+
+
+  /*
+    ==================================================================
+    이모저모 / SNS 타임라인
+
+    이 영역은 방문자가 직접 작성하는 방식이 아닙니다.
+    HTML을 수정할 수 있는 본인만 게시글과 댓글을 추가/수정할 수 있습니다.
+
+    게시글:
+      title    제목
+      text     본문
+      image    이미지 경로. 없으면 ""
+      tags     해시태그 배열
+      comments 댓글 목록
+
+    댓글:
+      text     댓글 내용
+
+    작성자 / 아이디 / 시간 / 별도 링크는 사용하지 않습니다.
+    ==================================================================
+  */
+  feedPosts:[
+    {
+      title:"[잡담] B동 7층 커피머신 또 죽었음",
+      text:`누가 또 고점도 영양액 넣으셨습니까?
+
+분명히 전면에
+“노이드용 유체 주입 금지 / 음료 전용”
+이라고 적혀 있는데 왜 자꾸 넣는 겁니까?
+
+이번엔 내부 펌프까지 굳었다고 시설팀이 욕하면서 뜯어갔습니다`,
+      image:"",
+      comments:[
+        {text:"그거 영양액 아니고 냉각 보조제 아니에요?"},
+        {text:"더 심각하잖아"},
+        {text:"B동이면 어제 세트님도 거기서 커피 뽑던데요"},
+        {text:"세트님이 커피를 드셔요?"},
+        {text:"좋아하십니다"},
+        {text:"그분 지난번에 에스프레소 한 잔 들고 40분 동안 연구동 돌아다니던데"}
+      ]
+    },
+    {
+      title:"[질문] 소장님한테 논문 직접 반려당해 본 사람 있음?",
+      text:`나 방금 봄
+
+“흥미롭군. 그러나 흥미롭다는 사실이 옳다는 뜻은 아니야.”
+
+본문 64페이지인데 저거 한마디 하시더라
+
+나 뭐부터 고쳐야 하냐`,
+      image:"",
+      comments:[
+        {text:"전부"},
+        {text:"애도를 표합니다"},
+        {text:"세트님 식 “처음부터 다시 해라”네요"},
+        {text:"그래도 “논리적 연결이 관찰되지 않는다.”보다는 낫다"},
+        {text:"너 그거 받아봄?"},
+        {text:"세 번"}
+      ]
+    },
+    {
+      title:"[질문] C동 4층에 머리만 돌아다니는 노이드 뭔가요",
+      text:`방금 카트 위에 머리랑 팔만 얹혀 있는 노이드가 혼자 이동하고 있었습니다`,
+      image:"",
+      comments:[
+        {text:"저한테 인사까지 했는데요"},
+        {text:"아 그 친구요"},
+        {text:"누구예요?"},
+        {text:"연구원 MYS-177M 제레미입니다, 세트님께 맞았다고 합니다"},
+        {text:"왜 혼자 돌아다녀요"},
+        {text:"수리는 받아야죠"},
+        {text:"몸도 없는데요?"},
+        {text:"팔은 있잖아요"},
+        {text:"그게 해결책입니까"},
+        {text:"본인은 해결책이라고 생각하던데요"},
+        {text:"아까 엘리베이터 버튼도 직접 누르던데"},
+        {text:"또 걔임? 적응 엄청 빠르네"}
+      ]
+    },
+    {
+      title:"[잡담] 연구소에서 제일 무서운 말",
+      text:`개인적으로
+
+“이론상 안전합니다”
+
+이거 1위라고 생각함
+
+“간단한 실험입니다”도 만만치 않음
+
+“기존 설비를 조금만 개조하면 됩니다”
+
+그 말 듣고 지난달에 실험실 벽 하나 날아갔잖아`,
+      image:"",
+      comments:[
+        {text:"날아간 게 아니라 분리된 겁니다"},
+        {text:"그게 날아간 거임"},
+        {text:"“세트님께서 직접 참관하십니다” 이게 제일 무서운데"},
+        {text:"왜?"},
+        {text:"실수하면 바로 보이잖아요"},
+        {text:"그분은 참관 안 해도 나중에 데이터 보고 다 앎"}
+      ]
+    },
+    {
+      title:"[잡담] 식당 신메뉴 먹어본 사람",
+      text:`오늘 나온 고밀도 에너지 젤리 드셔보신 분
+먹지 마세요`,
+      image:"",
+      comments:[
+        {text:"뭐임? 왜?"},
+        {text:"맛이 없습니다"},
+        {text:"영양효율 27% 올랐다던데?"},
+        {text:"맛은 83% 내려갔습니다"},
+        {text:"노이드용 식품에 왜 맛을 따짐ㅋㅋ"},
+        {text:"미각 센서를 개발한 연구기관에서 맛을 따지지 말라는 건 너무하지 않습니까"},
+        {text:"세트님도 드셨다던데"},
+        {text:"뭐라고 하셨는데요?"},
+        {text:"“영양학적 목적에는 부합하지만, 프타도 거르더군.” 라고 하심"}
+      ]
+    },
+    {
+      title:"[질문] 폐기된 프로젝트 자료는 왜 계속 보존하나요?",
+      text:`단순 실패 프로젝트도 전부 원본 로그까지 장기보존하던데 저장비용도 상당할 것 같아요`,
+      image:"",
+      comments:[
+        {text:"후대에 같은 실패 반복하지 말라고"},
+        {text:"그 정도면 결과보고서만 있어도 되지 않아요?"},
+        {text:"결과보고서는 결과를 정리한 사람의 해석임, 원본 데이터는 다르지"},
+        {text:"예전에 실제로 폐기 프로젝트 로그에서 30년 뒤 핵심 기술이 나온 적도 있습니다"},
+        {text:"어떤 건데요?"},
+        {text:"현행 자기진단 프로토콜 초기 알고리즘입니다, 당시는 오탐률이 너무 높아서 폐기됐습니다, 후대 센서 정확도가 올라가면서 다시 쓸 수 있게 된 겁니다"},
+        {text:"세트님이 예전에 비슷한 말 했었음, “실패한 연구가 무가치한 것이 아니라, 아직 그 실패를 사용할 방법을 모르는 경우가 있는 것이네.”"},
+        {text:"이건 좀 멋있네요"},
+        {text:"그래서 폐기된 프로젝트도 유지하는거임"}
+      ]
+    },
+    {
+      title:"[잡담] 이번에 퇴임하시는 박사님 송별회 다녀왔습니다",
+      text:`멤피스에서 161년 근무하셨답니다, 개선형 감각모듈 프로토타입 만드신 분이신데 아쉽네요`,
+      image:"",
+      comments:[
+        {text:"진짜 오래 계셨네요, 교과서에서 본 이름인데 아직 계셨습니까?"},
+        {text:"오늘까지요"},
+        {text:"세트님도 오셨습니다"},
+        {text:"무슨 말씀 하셨습니까?"},
+        {text:"박사님이 먼저 “이제 제 연구보다 제 이름이 오래 남겠군요.” 라고 농담하셨습니다, 세트님이 잠깐 생각하시더니 ”그 반대이기를 바라지. 좋은 연구는 연구자의 이름을 잊은 뒤에도 사용되니 말이야.” 라고 하셨습니다"},
+        {text:"좋은 말이네요"},
+        {text:"박사님이 듣고 한참 웃으셨습니다 그리고 마지막에 세트님한테 “세트님은 제가 처음 왔을 때도 여기 계셨고, 제가 떠날 때도 여기 계시네요.” 라고 하셨는데 그때는 분위기가 좀 이상해졌습니다"},
+        {text:"세트님은 뭐라고 하셨습니까?"},
+        {text:"“그러니 기억하지.” 하고 끝이었습니다"},
+        {text:"충분했겠네요"}
+      ]
+    },
+    {
+      title:"[잡담] 세트님 웃는 거 봤습니다",
+      text:`진짜입니다
+오늘 회의에서 신경망 팀이 기존 모델보다 오류율 12% 낮춘 결과 가져왔는데 세트님이 자료 한참 보시다가 아주 살짝 웃으셨습니다`,
+      image:"",
+      comments:[
+        {text:"착각 아니에요?"},
+        {text:"광학센서 점검 지난주에 받았습니다"},
+        {text:"세트님 원래 자주 웃으시는데요"},
+        {text:"자주요?"},
+        {text:"네"},
+        {text:"언제요?"},
+        {text:"연구 결과가 예상보다 좋을 때요"},
+        {text:"그럼 저는 왜 한 번도 못 봤죠?"},
+        {text:"힘내세요"}
+      ]
+    }
+  ],
+
+  footerLeft:"ARCHIVE // MAIN DATABASE",
+  footerRight:"SYSTEM READY"
+};
+
+(()=>{
+  const $=id=>document.getElementById(id);
+  const setText=(id,v)=>{const e=$(id);if(e)e.textContent=v??""};
+  setText("siteTitle",SITE_DATA.siteTitle);setText("siteSubtitle",SITE_DATA.siteSubtitle);setText("heroEyebrow",SITE_DATA.heroEyebrow);setText("heroTitle",SITE_DATA.heroTitle);setText("heroDescription",SITE_DATA.heroDescription);setText("footerLeft",SITE_DATA.footerLeft);setText("footerRight",SITE_DATA.footerRight);
+
+  const tabs=[...document.querySelectorAll(".tab")],views=[...document.querySelectorAll(".view")];
+  const meta={world:"INSTITUTE info",timeline:"HISTORICAL RECORD",characters:"CHARACTER INDEX",feed:"Anonymous Bulletin Board"};
+  tabs.forEach(t=>t.addEventListener("click",()=>{const n=t.dataset.view;tabs.forEach(x=>x.classList.toggle("active",x===t));views.forEach(v=>v.classList.toggle("active",v.id===`view-${n}`));setText("heroCategory",meta[n]);}));
+
+  const index=$("worldIndex"),article=$("worldArticle");
+  (SITE_DATA.worldSections||[]).forEach((s,i)=>{
+    const id=`lore-${i+1}`;
+    const a=document.createElement("a");a.className="index-card";a.href=`#${id}`;a.innerHTML=`<div class="index-no">SECTION ${String(i+1).padStart(2,"0")}</div><div class="index-title"></div>`;a.querySelector(".index-title").textContent=s.title||"UNTITLED";index.appendChild(a);
+    const sec=document.createElement("section");sec.className="lore";sec.id=id;
+    const label=document.createElement("div");label.className="lore-label";label.textContent=s.label||"SECTION";
+    const h=document.createElement("h3");h.textContent=s.title||"UNTITLED";
+    const wrap=document.createElement("div");wrap.className="lore-text";
+    String(s.content||"").trim().split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean).forEach(txt=>{const p=document.createElement("p");p.textContent=txt;wrap.appendChild(p)});
+    sec.append(label,h,wrap);article.appendChild(sec);
+  });
+
+  const tl=SITE_DATA.timeline||{};setText("timelineTitle",tl.title);setText("timelineDescription",tl.description);$("timelineLink").href=tl.link||"#";
+  (tl.notes||[]).forEach(n=>{const d=document.createElement("div");d.className="note";const s=document.createElement("strong");s.textContent=n.title||"";const x=document.createElement("span");x.textContent=n.text||"";d.append(s,x);$("timelineNotes").appendChild(d)});
+
+  const grid=$("characterGrid"),search=$("characterSearch");
+  const render=(q="")=>{grid.innerHTML="";const key=q.trim().toLowerCase();const list=(SITE_DATA.characters||[]).filter(c=>!key||`${c.name||""} ${c.role||""}`.toLowerCase().includes(key));if(!list.length){const e=document.createElement("div");e.className="empty";e.textContent="검색 결과가 없습니다.";grid.appendChild(e);return}list.forEach(c=>{const idx=(SITE_DATA.characters||[]).indexOf(c);const a=document.createElement("a");a.className="character-card";a.href=c.link||"#";a.innerHTML=`<div class="char-no">FILE ${String(idx+1).padStart(3,"0")}</div><div class="char-name"></div><div class="char-role"></div><div class="char-arrow">→</div>`;a.querySelector(".char-name").textContent=c.name||"UNKNOWN";a.querySelector(".char-role").textContent=c.role||"UNCLASSIFIED";grid.appendChild(a)})};
+  render();search.addEventListener("input",e=>render(e.target.value));
+
+  /* ──────────────────────────────────────────────────────────
+     이모저모 / SNS FEED
+     ────────────────────────────────────────────────────────── */
+  const feedList=$("feedList");
+
+  const renderFeed=()=>{
+    feedList.innerHTML="";
+    const posts=SITE_DATA.feedPosts||[];
+
+    if(!posts.length){
+      const e=document.createElement("div");
+      e.className="empty";
+      e.textContent="등록된 기록이 없습니다.";
+      feedList.appendChild(e);
+      return;
+    }
+
+    posts.forEach(post=>{
+      const article=document.createElement("article");
+      article.className="feed-post";
+
+      if(post.title){
+        const title=document.createElement("h3");
+        title.className="feed-title";
+        title.textContent=post.title;
+        article.appendChild(title);
+      }
+
+      const text=document.createElement("p");
+      text.className="feed-text";
+      text.textContent=post.text||"";
+      article.appendChild(text);
+
+      const imagePath=typeof post.image==="string"?post.image.trim():"";
+      if(imagePath){
+        const wrap=document.createElement("div");
+        wrap.className="feed-image-wrap";
+
+        const img=document.createElement("img");
+        img.className="feed-image";
+        img.alt="이모저모 첨부 이미지";
+        img.src=imagePath;
+        img.addEventListener("error",()=>{wrap.hidden=true},{once:true});
+
+        wrap.appendChild(img);
+        article.appendChild(wrap);
+      }
+
+      const tags=Array.isArray(post.tags)?post.tags.filter(Boolean):[];
+      if(tags.length){
+        const tagWrap=document.createElement("div");
+        tagWrap.className="feed-tags";
+        tags.forEach(tag=>{
+          const t=document.createElement("span");
+          t.className="feed-tag";
+          t.textContent=`#${tag}`;
+          tagWrap.appendChild(t);
+        });
+        article.appendChild(tagWrap);
+      }
+
+      const commentZone=document.createElement("div");
+      commentZone.className="comment-zone";
+
+      const comments=Array.isArray(post.comments)?post.comments:[];
+      const label=document.createElement("div");
+      label.className="comment-label";
+      label.textContent=`COMMENTS // ${comments.length}`;
+      commentZone.appendChild(label);
+
+      if(comments.length){
+        const list=document.createElement("div");
+        list.className="comment-list";
+
+        comments.forEach(comment=>{
+          const row=document.createElement("div");
+          row.className="comment";
+
+          const cText=document.createElement("p");
+          cText.className="comment-text";
+          cText.textContent=comment.text||"";
+
+          row.appendChild(cText);
+          list.appendChild(row);
+        });
+
+        commentZone.appendChild(list);
+      }else{
+        const none=document.createElement("div");
+        none.className="no-comments";
+        none.textContent="댓글이 없습니다.";
+        commentZone.appendChild(none);
+      }
+
+      article.appendChild(commentZone);
+      feedList.appendChild(article);
+    });
+  };
+
+  renderFeed();
+})();
+</script>
+</body>
+</html>
